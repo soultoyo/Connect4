@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/soultoyo/connect4/board"
 	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
@@ -38,6 +40,17 @@ func main() {
 
 	running = true
 	for running {
+		if b.Win {
+			result, err := winMessageBox()
+			if result && err == nil {
+				b = board.New()
+			} else if result && err == nil {
+				running = false
+			} else {
+				fmt.Println(err)
+				running = false
+			}
+		}
 		input(b)
 		draw(renderer, b)
 	}
@@ -75,4 +88,47 @@ func input(b *board.Board) {
 			break
 		}
 	}
+}
+
+func winMessageBox() (bool, error) {
+	buttons := []sdl.MessageBoxButtonData{
+		{sdl.MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "No"},
+		{sdl.MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Yes"},
+	}
+
+	// background, text, button border, button background, button selected
+	colorScheme := sdl.MessageBoxColorScheme{
+		Colors: [5]sdl.MessageBoxColor{
+			sdl.MessageBoxColor{44, 62, 80},
+			sdl.MessageBoxColor{189, 195, 199},
+			sdl.MessageBoxColor{41, 128, 185},
+			sdl.MessageBoxColor{149, 165, 166},
+			sdl.MessageBoxColor{127, 140, 141},
+		},
+	}
+
+	messageboxdata := sdl.MessageBoxData{
+		sdl.MESSAGEBOX_INFORMATION,
+		nil,
+		"Play again",
+		"Do you want to play again?",
+		buttons,
+		&colorScheme,
+	}
+
+	var buttonid int32
+	var err error
+	if buttonid, err = sdl.ShowMessageBox(&messageboxdata); err != nil {
+		fmt.Println("error displaying message box")
+		return false, err
+	}
+
+	if buttonid == -1 {
+		fmt.Println("no selection")
+	} else if buttonid == 1 {
+		return true, nil
+	} else {
+		return false, nil
+	}
+	return false, nil
 }

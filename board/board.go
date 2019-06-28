@@ -43,6 +43,7 @@ func New() *Board {
 	return board
 }
 
+// Sets up the board with no counters
 func (b *Board) setupBoard() {
 	radius := 35
 	startx := 120
