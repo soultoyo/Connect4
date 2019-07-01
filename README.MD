@@ -2,7 +2,8 @@
 A Project written in Go (Golang), using [go-sdl2](https://github.com/veandco/go-sdl2)
 
 ## Requirements
-Make sure the following packages are installed before installing the project
+Make sure the following packages are installed before installing the project:
+
 [go-sdl2](https://github.com/veandco/go-sdl2)
 
 
