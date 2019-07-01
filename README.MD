@@ -10,4 +10,4 @@ Make sure the following packages are installed before installing the project:
 ## Installation
 run the following command to install the project:
 
-*go install github.com/soultoyo/Connect4*
+*go get github.com/soultoyo/Connect4*
